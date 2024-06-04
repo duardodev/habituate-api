@@ -14,28 +14,31 @@ datasource db {
 }
 
 model Day {
-  id   String   @id @default(uuid()) @map("_id") @db.ObjectId
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
   date DateTime
 
-  completedHabits CompletedHabit[]
+  dayHabits DayHabit[]
 
   @@unique([date])
 }
 
 model Habit {
-  id        String   @id @default(uuid()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   userId    String
   createdAt DateTime @default(now())
 
-  completedHabits CompletedHabit[]
+  dayHabits DayHabit[]
 }
 
-model CompletedHabit {
-  id      String @id @default(uuid()) @map("_id") @db.ObjectId
-  habitId String @db.ObjectId
-  dayId   String @db.ObjectId
+model DayHabit {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  habitId     String  @db.ObjectId
+  dayId       String  @db.ObjectId
+  isCompleted Boolean @default(false)
 
   habit Habit @relation(fields: [habitId], references: [id])
   day   Day   @relation(fields: [dayId], references: [id])
+
+  @@unique([habitId, dayId])
 }
