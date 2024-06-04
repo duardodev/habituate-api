@@ -1,10 +1,14 @@
 import fastify from 'fastify';
+import cors from '@fastify/cors';
+import { appRoutes } from './routes';
 
 const app = fastify();
 
-app.get('/hello', () => {
-  return 'hello world';
+app.register(cors, {
+  origin: process.env.CORS_ORIGIN,
 });
+
+app.register(appRoutes);
 
 app
   .listen({
