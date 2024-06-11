@@ -89,17 +89,6 @@ export async function appRoutes(app: FastifyInstance) {
     const { date } = bodySchema.parse(request.body);
     const dayDate = dayjs(date).startOf('day').toDate();
 
-    const habit = await prisma.habit.findFirst({
-      where: {
-        id,
-        userId: 'duardodev',
-      },
-    });
-
-    if (!habit) {
-      return reply.status(404).send({ error: 'Habit not found' });
-    }
-
     let day = await prisma.day.findUnique({
       where: {
         date: dayDate,
@@ -114,37 +103,48 @@ export async function appRoutes(app: FastifyInstance) {
       });
     }
 
-    let dayHabit = await prisma.dayHabit.findUnique({
+    let completedHabit = await prisma.completedHabit.findUnique({
       where: {
         habitId_dayId: {
-          habitId: habit.id,
+          habitId: id,
           dayId: day.id,
         },
       },
     });
 
-    if (!dayHabit) {
-      dayHabit = await prisma.dayHabit.create({
+    if (!completedHabit) {
+      completedHabit = await prisma.completedHabit.create({
         data: {
-          habitId: habit.id,
+          habitId: id,
           dayId: day.id,
-          isCompleted: true,
         },
       });
     } else {
-      dayHabit = await prisma.dayHabit.update({
+      completedHabit = await prisma.completedHabit.delete({
         where: {
           habitId_dayId: {
-            habitId: habit.id,
+            habitId: id,
             dayId: day.id,
           },
-        },
-        data: {
-          isCompleted: !dayHabit.isCompleted,
         },
       });
     }
 
-    reply.status(201).send(dayHabit);
+    reply.status(201).send();
+  });
+
+  app.get('/days/habits/completed', async (request: FastifyRequest, reply: FastifyReply) => {
+    const daysWithCompletedHabits = await prisma.day.findMany({
+      where: {
+        completedHabits: {
+          some: {},
+        },
+      },
+      include: {
+        completedHabits: true,
+      },
+    });
+
+    return reply.status(200).send(daysWithCompletedHabits);
   });
 }
