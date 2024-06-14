@@ -133,18 +133,23 @@ export async function appRoutes(app: FastifyInstance) {
     reply.status(201).send();
   });
 
-  app.get('/days/habits/completed', async (request: FastifyRequest, reply: FastifyReply) => {
-    const daysWithCompletedHabits = await prisma.day.findMany({
+  app.get('/completed-habits/:id/days', async (request: FastifyRequest, reply: FastifyReply) => {
+    const paramsSchema = z.object({
+      id: z.string(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+
+    const daysWithSpecificHabitCompleted = await prisma.day.findMany({
       where: {
         completedHabits: {
-          some: {},
+          some: {
+            habitId: id,
+          },
         },
-      },
-      include: {
-        completedHabits: true,
       },
     });
 
-    return reply.status(200).send(daysWithCompletedHabits);
+    return reply.status(200).send(daysWithSpecificHabitCompleted);
   });
 }
