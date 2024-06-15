@@ -41,14 +41,19 @@ export async function appRoutes(app: FastifyInstance) {
 
     const { id } = paramsSchema.parse(request.params);
 
-    await prisma.habit.delete({
+    await prisma.completedHabit.deleteMany({
       where: {
-        id,
-        userId: 'duardodev',
+        habitId: id,
       },
     });
 
-    reply.status(204).send();
+    await prisma.habit.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return reply.status(204).send();
   });
 
   app.put('/habits/:id', async (request: FastifyRequest, reply: FastifyReply) => {
