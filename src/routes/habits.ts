@@ -1,9 +1,9 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { prisma } from '../src/lib/prisma';
+import { prisma } from '../lib/prisma';
 import { z } from 'zod';
 import dayjs from 'dayjs';
 
-export async function appRoutes(app: FastifyInstance) {
+export async function habitsRoutes(app: FastifyInstance) {
   app.post('/habits', async (request: FastifyRequest, reply: FastifyReply) => {
     const bodySchema = z.object({
       title: z.string(),

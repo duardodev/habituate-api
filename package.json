@@ -13,13 +13,14 @@
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/node": "^20.13.0",
     "eslint": "^9.4.0",
-    "prisma": "^5.14.0",
+    "prisma": "^5.16.1",
     "tsx": "^4.11.0",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
-    "@prisma/client": "^5.15.0",
+    "@fastify/jwt": "^8.0.1",
+    "@prisma/client": "^5.16.1",
     "dayjs": "^1.11.11",
     "fastify": "^4.27.0",
     "zod": "^3.23.8"
