@@ -4,6 +4,10 @@ import { z } from 'zod';
 import dayjs from 'dayjs';
 
 export async function habitsRoutes(app: FastifyInstance) {
+  app.addHook('preHandler', async request => {
+    await request.jwtVerify();
+  });
+
   app.post('/habits', async (request: FastifyRequest, reply: FastifyReply) => {
     const bodySchema = z.object({
       title: z.string(),
@@ -14,7 +18,7 @@ export async function habitsRoutes(app: FastifyInstance) {
     const habit = await prisma.habit.create({
       data: {
         title,
-        userId: 'duardodev',
+        userId: request.user.sub,
       },
     });
 
@@ -24,7 +28,7 @@ export async function habitsRoutes(app: FastifyInstance) {
   app.get('/habits', async (request: FastifyRequest, reply: FastifyReply) => {
     const habits = await prisma.habit.findMany({
       where: {
-        userId: 'duardodev',
+        userId: request.user.sub,
       },
       orderBy: {
         createdAt: 'asc',
@@ -40,6 +44,16 @@ export async function habitsRoutes(app: FastifyInstance) {
     });
 
     const { id } = paramsSchema.parse(request.params);
+
+    const habit = await prisma.habit.findFirstOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    if (habit.userId != request.user.sub) {
+      return reply.status(401).send();
+    }
 
     await prisma.completedHabit.deleteMany({
       where: {
@@ -68,10 +82,19 @@ export async function habitsRoutes(app: FastifyInstance) {
     const { id } = paramsSchema.parse(request.params);
     const { title } = bodySchema.parse(request.body);
 
+    const habit = await prisma.habit.findFirstOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    if (habit.userId != request.user.sub) {
+      return reply.status(401).send();
+    }
+
     await prisma.habit.update({
       where: {
         id,
-        userId: 'duardodev',
       },
       data: {
         title,
@@ -93,6 +116,16 @@ export async function habitsRoutes(app: FastifyInstance) {
     const { id } = paramsSchema.parse(request.params);
     const { date } = bodySchema.parse(request.body);
     const dayDate = dayjs(date).startOf('day').toDate();
+
+    const habit = await prisma.habit.findFirstOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    if (habit.userId != request.user.sub) {
+      return reply.status(401).send();
+    }
 
     let day = await prisma.day.findUnique({
       where: {
@@ -144,6 +177,16 @@ export async function habitsRoutes(app: FastifyInstance) {
     });
 
     const { id } = paramsSchema.parse(request.params);
+
+    const habit = await prisma.habit.findFirstOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    if (habit.userId != request.user.sub) {
+      return reply.status(401).send();
+    }
 
     const daysWithSpecificHabitCompleted = await prisma.day.findMany({
       where: {
