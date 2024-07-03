@@ -169,6 +169,20 @@ export async function habitsRoutes(app: FastifyInstance) {
           },
         },
       });
+
+      const remainingCompletedHabits = await prisma.completedHabit.findMany({
+        where: {
+          dayId: day.id,
+        },
+      });
+
+      if (remainingCompletedHabits.length === 0) {
+        await prisma.day.delete({
+          where: {
+            id: day.id,
+          },
+        });
+      }
     }
 
     reply.status(201).send();
