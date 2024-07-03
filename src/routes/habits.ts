@@ -2,6 +2,9 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '../lib/prisma';
 import { z } from 'zod';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 export async function habitsRoutes(app: FastifyInstance) {
   app.addHook('preHandler', async request => {
@@ -115,7 +118,7 @@ export async function habitsRoutes(app: FastifyInstance) {
 
     const { id } = paramsSchema.parse(request.params);
     const { date } = bodySchema.parse(request.body);
-    const dayDate = dayjs(date).startOf('day').toDate();
+    const dayDate = dayjs.utc(date).startOf('day').toDate();
 
     const habit = await prisma.habit.findFirstOrThrow({
       where: {
