@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '../lib/prisma';
 import { z } from 'zod';
+import axios from 'axios';
 
 export async function authRoutes(app: FastifyInstance) {
   app.post('/register', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -10,39 +11,34 @@ export async function authRoutes(app: FastifyInstance) {
 
     const { code } = bodySchema.parse(request.body);
 
-    const data = new URLSearchParams();
-    data.append('client_id', process.env.GITHUB_CLIENT_ID as string);
-    data.append('client_secret', process.env.GITHUB_CLIENT_SECRET as string);
-    data.append('code', code);
-
-    const accessTokenResponse = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
+    const accessTokenResponse = await axios.post('https://github.com/login/oauth/access_token', null, {
+      params: {
+        client_id: process.env.GITHUB_CLIENT_ID,
+        client_secret: process.env.GITHUB_CLIENT_SECRET,
+        code,
+      },
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
         Accept: 'application/json',
       },
-      body: data,
     });
 
-    const { access_token } = await accessTokenResponse.json();
+    const { access_token } = accessTokenResponse.data;
 
-    const userResponse = await fetch('https://api.github.com/user', {
+    const userResponse = await axios.get('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
     });
 
-    const userData = await userResponse.json();
-
     const userSchema = z.object({
       id: z.number(),
-      name: z.string(),
-      email: z.string().email(),
+      name: z.string().nullable(),
+      email: z.string().email().nullable(),
       avatar_url: z.string().url(),
       login: z.string(),
     });
 
-    const userInfo = userSchema.parse(userData);
+    const userInfo = userSchema.parse(userResponse.data);
 
     let user = await prisma.user.findUnique({
       where: {
@@ -54,7 +50,7 @@ export async function authRoutes(app: FastifyInstance) {
       user = await prisma.user.create({
         data: {
           githubId: userInfo.id,
-          name: userInfo.name,
+          name: userInfo.name || userInfo.login,
           email: userInfo.email,
           avatarUrl: userInfo.avatar_url,
           login: userInfo.login,
