@@ -115,7 +115,7 @@ export async function habitsRoutes(app: FastifyInstance) {
 
     const { id } = paramsSchema.parse(request.params);
     const { date } = bodySchema.parse(request.body);
-    const dayDate = dayjs(date).startOf('day').toDate();
+    const dayDate = dayjs(date).toDate();
 
     const habit = await prisma.habit.findFirstOrThrow({
       where: {
