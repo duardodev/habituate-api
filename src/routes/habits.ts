@@ -1,11 +1,19 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { getAuth } from '@clerk/fastify';
 import { prisma } from '../lib/prisma';
 import { z } from 'zod';
 import dayjs from 'dayjs';
 
 export async function habitsRoutes(app: FastifyInstance) {
-  app.addHook('preHandler', async request => {
-    await request.jwtVerify();
+  app.addHook('preHandler', async (request: FastifyRequest, reply: FastifyReply) => {
+    const { userId } = getAuth(request);
+
+    if (!userId) {
+      reply.status(401).send({ error: 'Unauthorized' });
+      return;
+    }
+
+    request.userId = userId;
   });
 
   app.post('/habits', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -18,7 +26,7 @@ export async function habitsRoutes(app: FastifyInstance) {
     const habit = await prisma.habit.create({
       data: {
         title,
-        userId: request.user.sub,
+        userId: request.userId!,
       },
     });
 
@@ -28,7 +36,7 @@ export async function habitsRoutes(app: FastifyInstance) {
   app.get('/habits', async (request: FastifyRequest, reply: FastifyReply) => {
     const habits = await prisma.habit.findMany({
       where: {
-        userId: request.user.sub,
+        userId: request.userId,
       },
       orderBy: {
         createdAt: 'asc',
@@ -51,7 +59,7 @@ export async function habitsRoutes(app: FastifyInstance) {
       },
     });
 
-    if (habit.userId != request.user.sub) {
+    if (habit.userId != request.userId) {
       return reply.status(401).send();
     }
 
@@ -88,7 +96,7 @@ export async function habitsRoutes(app: FastifyInstance) {
       },
     });
 
-    if (habit.userId != request.user.sub) {
+    if (habit.userId != request.userId) {
       return reply.status(401).send();
     }
 
@@ -123,7 +131,7 @@ export async function habitsRoutes(app: FastifyInstance) {
       },
     });
 
-    if (habit.userId != request.user.sub) {
+    if (habit.userId != request.userId) {
       return reply.status(401).send();
     }
 
@@ -198,7 +206,7 @@ export async function habitsRoutes(app: FastifyInstance) {
       },
     });
 
-    if (habit.userId != request.user.sub) {
+    if (habit.userId != request.userId) {
       return reply.status(401).send();
     }
 

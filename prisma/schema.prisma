@@ -13,17 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  githubId  Int     @unique
-  name      String
-  email     String?
-  avatarUrl String
-  login     String
-
-  habits Habit[]
-}
-
 model Day {
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
   date DateTime
@@ -36,12 +25,10 @@ model Day {
 model Habit {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
+  userId    String
   createdAt DateTime @default(now())
 
   completedHabits CompletedHabit[]
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @db.ObjectId
 }
 
 model CompletedHabit {

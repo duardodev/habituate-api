@@ -1,8 +1,10 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import fastify from 'fastify';
 import cors from '@fastify/cors';
-import jwt from '@fastify/jwt';
+import { clerkPlugin } from '@clerk/fastify';
 import { habitsRoutes } from './routes/habits';
-import { authRoutes } from './routes/auth';
 
 const app = fastify();
 
@@ -10,11 +12,11 @@ app.register(cors, {
   origin: process.env.CORS_ORIGIN,
 });
 
-app.register(jwt, {
-  secret: process.env.JWT_SECRET!,
+app.register(clerkPlugin, {
+  secretKey: process.env.CLERK_SECRET_KEY,
+  publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
 });
 
-app.register(authRoutes);
 app.register(habitsRoutes);
 
 app
