@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src",
+    "build": "tsup src/server.ts",
     "start": "node dist/server.js"
   },
   "keywords": [],
@@ -17,6 +20,7 @@
     "@types/node": "^20.13.0",
     "eslint": "^9.4.0",
     "prisma": "^5.16.2",
+    "tsup": "^8.2.1",
     "tsx": "^4.11.0",
     "typescript": "^5.4.5"
   },
@@ -27,7 +31,6 @@
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "fastify": "^4.27.0",
-    "tsup": "^8.1.0",
     "zod": "^3.23.8"
   }
 }
