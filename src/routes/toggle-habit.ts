@@ -9,7 +9,7 @@ export async function toggleHabit(app: FastifyInstance) {
   app.addHook('preHandler', authMiddleware);
 
   app.withTypeProvider<ZodTypeProvider>().patch(
-    '/habits/:id/toogle',
+    '/habits/:id/toggle',
     {
       schema: {
         summary: 'Toggle a habit to completed or not completed',

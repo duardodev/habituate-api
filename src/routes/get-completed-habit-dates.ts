@@ -7,7 +7,7 @@ import { z } from 'zod';
 export async function getCompletedHabitDates(app: FastifyInstance) {
   app.addHook('preHandler', authMiddleware);
 
-  app.withTypeProvider<ZodTypeProvider>().patch(
+  app.withTypeProvider<ZodTypeProvider>().get(
     '/completed-habits/:id/days',
     {
       schema: {
