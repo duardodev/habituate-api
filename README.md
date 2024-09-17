@@ -4,12 +4,11 @@ Back-end da aplicação de monitoramento de hábitos desenvolvido com Node.js, T
 
 ## Características
 
-- Criar um novo hábito
-- Obter hábitos cadastrados
-- Editar o títuto de um hábito
-- Alternar um hábito para concluído ou não concluído
-- Obter datas em que um hábito foi concluído
-
+- Rota para criar um novo hábito;
+- Rota pra obter hábitos cadastrados;
+- Rota para editar o títuto de um hábito;
+- Rota para alternar um hábito para concluído ou não concluído;
+- Rota para bbter datas em que um hábito foi concluído;
 
 ## Acessando a Documentação
 
