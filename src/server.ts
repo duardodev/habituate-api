@@ -13,6 +13,8 @@ import { editHabitTitle } from './routes/edit-habit-title';
 import { toggleHabit } from './routes/toggle-habit';
 import { getCompletedHabitDates } from './routes/get-completed-habit-dates';
 import { clerkPlugin } from '@clerk/fastify';
+import { createTask } from './routes/create-task';
+import { getTasks } from './routes/get-tasks';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -50,6 +52,8 @@ app.register(editHabitTitle);
 app.register(toggleHabit);
 app.register(getCompletedHabitDates);
 app.register(deleteHabit);
+app.register(createTask);
+app.register(getTasks);
 
 app
   .listen({
