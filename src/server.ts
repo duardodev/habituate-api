@@ -15,6 +15,7 @@ import { getCompletedHabitDates } from './routes/get-completed-habit-dates';
 import { clerkPlugin } from '@clerk/fastify';
 import { createTask } from './routes/create-task';
 import { getTasks } from './routes/get-tasks';
+import { toggleTask } from './routes/toggle-task';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -54,6 +55,7 @@ app.register(getCompletedHabitDates);
 app.register(deleteHabit);
 app.register(createTask);
 app.register(getTasks);
+app.register(toggleTask);
 
 app
   .listen({
