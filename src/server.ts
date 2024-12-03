@@ -18,6 +18,7 @@ import { getTasks } from './routes/get-tasks';
 import { toggleTask } from './routes/toggle-task';
 import { deleteTask } from './routes/delete-task';
 import { editTaskTitle } from './routes/edit-task-title';
+import { getAmountCompletedTasks } from './routes/get-amount-completed-tasks';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -60,6 +61,7 @@ app.register(getTasks);
 app.register(toggleTask);
 app.register(deleteTask);
 app.register(editTaskTitle);
+app.register(getAmountCompletedTasks);
 
 app
   .listen({
