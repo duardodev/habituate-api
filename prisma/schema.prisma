@@ -41,12 +41,3 @@ model CompletedHabit {
 
   @@unique([habitId, dayId])
 }
-
-model Task {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  userId    String
-  priority  String
-  createdAt DateTime @default(now())
-  completed Boolean
-}

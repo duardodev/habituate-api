@@ -13,13 +13,6 @@ import { editHabitTitle } from './routes/edit-habit-title';
 import { toggleHabit } from './routes/toggle-habit';
 import { getCompletedHabitDates } from './routes/get-completed-habit-dates';
 import { clerkPlugin } from '@clerk/fastify';
-import { createTask } from './routes/create-task';
-import { getTasks } from './routes/get-tasks';
-import { toggleTask } from './routes/toggle-task';
-import { deleteTask } from './routes/delete-task';
-import { editTaskTitle } from './routes/edit-task-title';
-import { getAmountCompletedTasks } from './routes/get-amount-completed-tasks';
-import { deleteTasks } from './routes/delete-tasks';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -57,13 +50,6 @@ app.register(editHabitTitle);
 app.register(toggleHabit);
 app.register(getCompletedHabitDates);
 app.register(deleteHabit);
-app.register(createTask);
-app.register(getTasks);
-app.register(toggleTask);
-app.register(deleteTask);
-app.register(editTaskTitle);
-app.register(getAmountCompletedTasks);
-app.register(deleteTasks);
 
 app
   .listen({
