@@ -1,6 +1,6 @@
-# Habituate (Node.js)
+# Habituate (API)
 
-Back-end da aplicação de monitoramento de hábitos desenvolvido com Node.js, TypeScript, Fastify, Prisma e MongoDB.
+Back-end da aplicação de monitoramento de hábitos desenvolvido com Node.js, Fastify, TypeScript, Prisma e MongoDB.
 
 ## Características
 
