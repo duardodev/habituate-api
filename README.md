@@ -8,7 +8,7 @@ Back-end da aplicação de monitoramento de hábitos desenvolvido com Node.js, F
 - Rota pra obter hábitos cadastrados;
 - Rota para editar o títuto de um hábito;
 - Rota para alternar um hábito para concluído ou não concluído;
-- Rota para bbter datas em que um hábito foi concluído;
+- Rota para obter datas em que um hábito foi concluído;
 
 ## Acessando a Documentação
 
