@@ -18,8 +18,9 @@ export async function getHabits(app: FastifyInstance) {
             habits: z.array(
               z.object({
                 id: z.string(),
-                title: z.string(),
                 userId: z.string(),
+                title: z.string(),
+                emoji: z.string().nullable(),
                 createdAt: z.date(),
               })
             ),
@@ -42,6 +43,7 @@ export async function getHabits(app: FastifyInstance) {
           return {
             id: habit.id,
             title: habit.title,
+            emoji: habit.emoji,
             userId: habit.userId,
             createdAt: habit.createdAt,
           };

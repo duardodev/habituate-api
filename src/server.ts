@@ -12,6 +12,7 @@ import { deleteHabit } from './routes/delete-habit';
 import { editHabitTitle } from './routes/edit-habit-title';
 import { toggleHabit } from './routes/toggle-habit';
 import { getCompletedHabitDates } from './routes/get-completed-habit-dates';
+import { updateHabitEmoji } from './routes/update-habit-emoji';
 import { clerkPlugin } from '@clerk/fastify';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -50,6 +51,7 @@ app.register(editHabitTitle);
 app.register(toggleHabit);
 app.register(getCompletedHabitDates);
 app.register(deleteHabit);
+app.register(updateHabitEmoji);
 
 app
   .listen({
