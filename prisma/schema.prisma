@@ -26,7 +26,7 @@ model Habit {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String
   title     String
-  emoji     String?
+  emoji     String
   createdAt DateTime @default(now())
 
   completedHabits CompletedHabit[]

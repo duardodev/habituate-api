@@ -20,7 +20,7 @@ export async function getHabits(app: FastifyInstance) {
                 id: z.string(),
                 userId: z.string(),
                 title: z.string(),
-                emoji: z.string().nullable(),
+                emoji: z.string(),
                 createdAt: z.date(),
               })
             ),
