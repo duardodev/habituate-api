@@ -9,7 +9,7 @@ import { jsonSchemaTransform, serializerCompiler, validatorCompiler, ZodTypeProv
 import { createHabit } from './routes/create-habit';
 import { getHabits } from './routes/get-habits';
 import { deleteHabit } from './routes/delete-habit';
-import { editHabitTitle } from './routes/edit-habit-title';
+import { updateHabitTitle } from './routes/update-habit-title';
 import { toggleHabit } from './routes/toggle-habit';
 import { getCompletedHabitDates } from './routes/get-completed-habit-dates';
 import { updateHabitEmoji } from './routes/update-habit-emoji';
@@ -47,7 +47,7 @@ app.register(clerkPlugin, {
 
 app.register(createHabit);
 app.register(getHabits);
-app.register(editHabitTitle);
+app.register(updateHabitTitle);
 app.register(toggleHabit);
 app.register(getCompletedHabitDates);
 app.register(deleteHabit);

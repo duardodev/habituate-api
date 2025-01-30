@@ -33,7 +33,7 @@ export async function createHabit(app: FastifyInstance) {
         data: {
           title,
           userId: request.userId!,
-          emoji: '1fab4',
+          emoji: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1fab4.png',
         },
       });
 

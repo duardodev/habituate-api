@@ -4,7 +4,7 @@ import { authMiddleware } from '../utils/auth-middleware';
 import { prisma } from '../lib/prisma';
 import { z } from 'zod';
 
-export async function editHabitTitle(app: FastifyInstance) {
+export async function updateHabitTitle(app: FastifyInstance) {
   app.addHook('preHandler', authMiddleware);
 
   app.withTypeProvider<ZodTypeProvider>().put(
