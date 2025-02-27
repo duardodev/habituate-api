@@ -1,15 +1,17 @@
 # Habituate (API)
 
-Back-end da aplicação de monitoramento de hábitos desenvolvido com Node.js, Fastify, TypeScript, Prisma e MongoDB.
+[🇧🇷 Leia em Português](README.pt-BR.md)
 
-## Características
+Back-end for the habit tracking application developed with Node.js, Fastify, TypeScript, Prisma, and MongoDB.
 
-- Rota para criar um novo hábito;
-- Rota pra obter hábitos cadastrados;
-- Rota para editar o títuto de um hábito;
-- Rota para alternar um hábito para concluído ou não concluído;
-- Rota para obter datas em que um hábito foi concluído;
+## Features
 
-## Acessando a Documentação
+- Route to create a new habit;
+- Route to retrieve registered habits;
+- Route to edit a habit's title;
+- Route to toggle a habit as completed or not;
+- Route to get dates when a habit was completed;
 
-A documentação completa da API pode ser acessada diretamente através do [Swagger UI](https://habituate-api.onrender.com/docs)
+## Accessing the Documentation
+
+The complete API documentation can be accessed directly through [Swagger UI](https://habituate-api.onrender.com/docs)
