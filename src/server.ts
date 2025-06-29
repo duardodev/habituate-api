@@ -14,6 +14,7 @@ import { toggleHabit } from './routes/toggle-habit';
 import { getCompletedHabitDates } from './routes/get-completed-habit-dates';
 import { updateHabitEmoji } from './routes/update-habit-emoji';
 import { clerkPlugin } from '@clerk/fastify';
+import { healthCheck } from './routes/health-check';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -52,6 +53,7 @@ app.register(toggleHabit);
 app.register(getCompletedHabitDates);
 app.register(deleteHabit);
 app.register(updateHabitEmoji);
+app.register(healthCheck)
 
 app
   .listen({
