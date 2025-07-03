@@ -43,19 +43,23 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(clerkPlugin, {
-  secretKey: process.env.CLERK_SECRET_KEY,
-  publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+app.register(healthCheck);
+
+app.register(async (protectedApp) => {
+  protectedApp.register(clerkPlugin, {
+    secretKey: process.env.CLERK_SECRET_KEY,
+    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+  });
+
+  protectedApp.register(createHabit);
+  protectedApp.register(getHabits);
+  protectedApp.register(updateHabitTitle);
+  protectedApp.register(toggleHabit);
+  protectedApp.register(getCompletedHabitDates);
+  protectedApp.register(deleteHabit);
+  protectedApp.register(updateHabitEmoji);
 });
 
-app.register(createHabit);
-app.register(getHabits);
-app.register(updateHabitTitle);
-app.register(toggleHabit);
-app.register(getCompletedHabitDates);
-app.register(deleteHabit);
-app.register(updateHabitEmoji);
-app.register(healthCheck)
 
 app
   .listen({
