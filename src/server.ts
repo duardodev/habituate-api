@@ -16,7 +16,9 @@ import { updateHabitEmoji } from './routes/update-habit-emoji';
 import { clerkPlugin } from '@clerk/fastify';
 import { healthCheck } from './routes/health-check';
 
-const app = fastify().withTypeProvider<ZodTypeProvider>();
+const app = fastify({
+  logger: true,
+}).withTypeProvider<ZodTypeProvider>();
 
 app.register(cors, {
   origin: process.env.CORS_ORIGIN,
